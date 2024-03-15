@@ -515,7 +515,6 @@
                                 "clearOnHide": true,
                                 "customDefaultValue": "",
                                 "calculateValue": "",
-                                "calculateServer": false,
                                 "allowCalculateOverride": false,
                                 "validateOn": "change",
                                 "validate": {
@@ -543,6 +542,7 @@
                                 },
                                 "customConditional": "",
                                 "logic": [],
+                                "onChange": "",
                                 "attributes": {},
                                 "overlay": {
                                     "style": "",
