@@ -1,7 +1,7 @@
 
 <div align="center">
     <a href="https://teamforms.app/" target="_blank" rel="noopener">
-        <img alt="Team Forms" width="100" src="https://teamforms.app/logo.svg" />
+        <img alt="Team Forms" width="100" src="https://teamforms.app/logo-alternative.png" />
     </a>
     <h1>Team Forms</h1>
     <h3>Intelligent Forms Inside Microsoft Teams.</h3>
