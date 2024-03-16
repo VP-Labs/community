@@ -35,6 +35,10 @@ async function buildTemplates(distServerPort) {
         const templateUrl = `http://localhost:${distServerPort}/templates/${file}`;
 
         const page = await browser.newPage();
+        await page.goto(`${appUrl}`);
+        await page.evaluate((port) => {
+            localStorage.setItem('templatesTrustedSources', `["http://localhost:${port}"]`);
+        }, distServerPort);
         await page.goto(`${appUrl}/templates/preview?url=${templateUrl}`);
         await page.waitForSelector('div.formio-form');
         await page.screenshot({ path: path.join(distTemplatesDir, file.replace('.json', '.png')) });
