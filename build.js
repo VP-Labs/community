@@ -15,6 +15,8 @@ async function buildTemplates(distServerPort) {
         .filter(file => file.endsWith('.json'));
 
     const browser = await puppeteer.launch({ headless: 'new' });
+    await addTrustedSources(browser, `http://localhost:${distServerPort}`)
+    browser.on('targetchanged', setBrowserDate);
 
     const templates = []
     for (const file of files) {
@@ -35,12 +37,9 @@ async function buildTemplates(distServerPort) {
         const templateUrl = `http://localhost:${distServerPort}/templates/${file}`;
 
         const page = await browser.newPage();
-        await page.goto(`${appUrl}`);
-        await page.evaluate((port) => {
-            localStorage.setItem('templatesTrustedSources', `["http://localhost:${port}"]`);
-        }, distServerPort);
         await page.goto(`${appUrl}/templates/preview?url=${templateUrl}`);
         await page.waitForSelector('div.formio-form');
+        await page.addStyleTag({ content: '.formio-form{margin: 20px}' })
         await page.screenshot({ path: path.join(distTemplatesDir, file.replace('.json', '.png')) });
         await page.close();
 
@@ -65,3 +64,22 @@ const server = httpServer.createServer({ root: distDir, showDir: true, cors: tru
 server.listen(8080);
 
 buildTemplates(8080).finally(() => server.close());
+
+async function addTrustedSources(browser, ...sources) {
+    const page = await browser.newPage();
+    await page.goto(`${appUrl}`);
+    await page.evaluate((sources) => {
+        localStorage.setItem('templatesTrustedSources', JSON.stringify(sources));
+    }, sources);
+    await page.close()
+}
+
+// Work around for setting puppeteer browser date https://stackoverflow.com/a/49069477/3095420
+async function setBrowserDate(target) {
+    const targetPage = await target.page();
+    const client = await targetPage?.target()?.createCDPSession();
+    if (client)
+        await client.send('Runtime.evaluate', {
+            expression: `Date.now = function() { return 0; }`
+        });
+}
