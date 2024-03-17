@@ -3966,7 +3966,7 @@
                 "size": "md",
                 "block": false,
                 "action": "submit",
-                "disableOnInvalid": true,
+                "disableOnInvalid": false,
                 "theme": "primary",
                 "input": true,
                 "placeholder": "",
