@@ -16,7 +16,7 @@ async function buildTemplates(distServerPort) {
 
     const browser = await puppeteer.launch({ headless: 'new' });
     await addTrustedSources(browser, `http://localhost:${distServerPort}`)
-    browser.on('targetchanged', setBrowserDate);
+    browser.on('targetchanged', setBrowserDefaults);
 
     const templates = []
     for (const file of files) {
@@ -75,11 +75,11 @@ async function addTrustedSources(browser, ...sources) {
 }
 
 // Work around for setting puppeteer browser date https://stackoverflow.com/a/49069477/3095420
-async function setBrowserDate(target) {
+async function setBrowserDefaults(target) {
     const targetPage = await target.page();
     const client = await targetPage?.target()?.createCDPSession();
     if (client)
         await client.send('Runtime.evaluate', {
-            expression: `Date.now = function() { return 0; }`
+            expression: `Date.now = function() { return 0; }; Math.random = function() { return 0.123456789; }`
         });
 }
