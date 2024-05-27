@@ -314,6 +314,23 @@
     "image": "templates/safety-induction.png"
   },
   {
+    "key": "safety-quiz-scored",
+    "title": "Safety Quiz Scored",
+    "description": "This quiz is designed to test your knowledge of basic workplace safety practices and procedures.",
+    "tags": [
+      "construction",
+      "field services",
+      "transport and logistics",
+      "health and safety",
+      "maintenance management",
+      "job site operations",
+      "safety",
+      "ohs",
+      "industrial"
+    ],
+    "image": "templates/safety-quiz-scored.png"
+  },
+  {
     "key": "sick-leave-request",
     "title": "Sick Leave Request",
     "description": "Submit a leave request and request. You can trigger PowerAutomate to start a approval flow!",
